@@ -1,4 +1,14 @@
 h1 {
-	color: red;
-	font-size: large;
+	color: white;
+	font-size: xx-large;
+    text-align: center;
+}
+
+body {
+    background-color: green;
+}
+
+.mainParagraph {
+    text-align: center;
+	color: white;
 }
