@@ -4,9 +4,13 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 import { useEffect } from 'react'
+// import { LocalStorage } from 'node-localstorage'
 
 function App() {
   
+
+  // const { LocalStorage } = require('node-localstorage')
+  // constlocalStorage = new LocalStorage('./scratch')
   const [count, setCount] = useState(0)
   const [people, setPeople] = useState([])
 
