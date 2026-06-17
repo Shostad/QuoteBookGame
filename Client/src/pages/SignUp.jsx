@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import './SignUp.css'
 
 function SignUp() {
+    const navigate = useNavigate();
     const [currentUserName,setCurrentUserName] = useState('')
     const [currentPassword,setCurrentPassword] = useState('')
 
@@ -12,6 +13,10 @@ function SignUp() {
 
     const updatePassword = (event) => {
         setCurrentPassword(event.target.value)
+    }
+
+    const backToSignIn = () => {
+        navigate('/')
     }
 
     const submitSignUp = async () => {
@@ -26,7 +31,7 @@ function SignUp() {
                     password: currentPassword
                 })
             })
-            
+            backToSignIn()
         }catch (err) {
             console.error(err)
         }
@@ -54,6 +59,12 @@ function SignUp() {
                     <p>Submit</p>
                     <input type="button" 
                     onClick={submitSignUp}/>
+                </div>
+                <div>
+                    <input 
+                        type="button"
+                        defaultValue={'Back to SignIn'} 
+                        onClick={backToSignIn}/>
                 </div>
             </div>
         </div>

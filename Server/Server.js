@@ -37,6 +37,19 @@ app.post('/api/SignUp', async (req, res) => {
     }
 })
 
+app.get('/api/SignIn/:userName/:password', async (req, res) => {
+    console.log("running getSignIn")
+    const {userName,password} = req.params
+    try {
+        const result = await db.query('SELECT id,name FROM users where name = $1 and password = $2',[userName,password]);
+        res.status(209).json(result.rows);
+        console.log(result)
+    } catch (error) {
+        console.error('Database connection error:', error.stack);
+        res.status(500).json({ error: 'SignIn error' });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running smoothly on port ${PORT}`);
