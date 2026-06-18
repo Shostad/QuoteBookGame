@@ -5,6 +5,7 @@ import App from './App.jsx'
 import SignUp from './pages/SignUp.jsx'
 import SignIn from './pages/SignIn.jsx'
 import HomePage from './pages/HomePage.jsx'
+import AddQuote from './pages/AddQuote.jsx'
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -19,6 +20,9 @@ const router = createBrowserRouter([
     },{
       path: '/HomePage',
       element : <HomePage />
+    },{
+      path: '/AddQuote',
+      element : <AddQuote />
     }
   ])
 

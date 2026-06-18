@@ -1,0 +1,44 @@
+h1 {
+	color: white;
+	font-size: xx-large;
+    text-align: center;
+}
+
+h3 {
+	color: white;
+	font-size: x-large;
+    text-align: center;
+}
+
+h4 {
+	color: white;
+	font-size: large;
+    text-align: center;
+}
+
+body {
+    background-color: green;
+}
+
+.mainParagraph {
+    text-align: center;
+	color: white;
+}
+
+p {
+    color: white;
+}
+
+.options-layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.options-element {
+    border-radius: 10px;
+    border-color: white;
+    border-style: solid;
+    border-width: 3px;
+    /* background-color: wheat; */
+}
