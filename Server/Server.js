@@ -63,6 +63,19 @@ app.get('/api/GetPeople/:userId', async (req, res) => {
     }
 });
 
+app.get('/api/GetQuoteCount/:userId', async (req, res) => {
+    console.log("running getQuoteCount")
+    const {userId} = req.params
+    try {
+        const result = await db.query('select count(created_by) from quote where created_by = $1;',[userId]);
+        res.status(209).json(result.rows);
+        console.log(result)
+    } catch (error) {
+        console.error('Database connection error:', error.stack);
+        res.status(500).json({ error: 'GetQuoteCount error' });
+    }
+});
+
 app.post('/api/AddPerson', async (req, res) => {
     console.log("starting AddPerson")
     const  {name,createdBy} = req.body

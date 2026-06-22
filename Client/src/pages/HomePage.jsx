@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './HomePage.css'
 
@@ -6,6 +6,7 @@ import './HomePage.css'
 
 function HomePage() {
     const navigate = useNavigate();
+    const [quoteCount, setquoteCount] = useState(0)
     const goToSignIn = () => {
         localStorage.removeItem('userId')
         localStorage.removeItem('userName')
@@ -13,6 +14,22 @@ function HomePage() {
     }
     const goToAddQuote = () => {
         navigate("/AddQuote")
+    }
+
+    useEffect(() => {
+        fetchQuoteCount()
+    },[quoteCount])
+
+    const fetchQuoteCount = async () => {
+        console.log("fetching QuoteCount")
+        try {
+            const res = await fetch(`http://localhost:3000/api/GetQuoteCount/${localStorage.getItem('userId')}`)
+            const data = await res.json()
+            console.log(data[0].count)
+            setquoteCount(data[0].count)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
@@ -23,20 +40,26 @@ function HomePage() {
             <h3>
                 Welcome back {localStorage.getItem('userName')}
             </h3>
-            <div className = 'options-layout'> 
+            <div className='options-layout'>
                 <div className="options-element">
                     <h4>
                         Quote Analysis
                     </h4>
                     <p>
-                        Add New Quote:
+                        You have {quoteCount} Quotes
                     </p>
-                    <input 
-                        type="button" 
+
+                </div>
+                <div className="options-element">
+                    <h4>
+                        Add New Quote:
+                    </h4>
+                    <input
+                        type="button"
                         onClick={goToAddQuote}
                     />
                 </div>
-                <div>
+                <div className="options-element">
                     <h4>
                         Play Game
                     </h4>
