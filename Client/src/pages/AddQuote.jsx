@@ -39,9 +39,10 @@ function AddQuote() {
     }
 
     const submitQuote = async () => {
-        console.log(peopleList)
+        console.log(peopleList.map(a => a.name))
         console.log(currentQuoter)
-        if (!peopleList.includes(currentQuoter.trim())) {
+        console.log(!peopleList.map(a => a.name).includes(currentQuoter.trim()))
+        if (!peopleList.map(a => a.name).includes(currentQuoter.trim())) {
             console.log('Adding New Person')
             try {
                 const res = await fetch('http://localhost:3000/api/AddPerson', {
@@ -92,14 +93,18 @@ function AddQuote() {
                 onChange={updateCurrentQuote}/>
             <input list="quoterNames" id="quoterList" name="quoterList" onChange={updateCurrentQuoter} />
             <datalist name="quoter" id="quoterNames">
-                <option value="You"></option>
                 {peopleList.map((current, x) => (
-                    <option value={current.name}></option>
+                    <option 
+                        value={current.name}
+                        id={x}
+                        key={"option"+x}
+                    ></option>
                 ))}
             </datalist>
             <input
                 type="button"
-                onClick={submitQuote} />
+                onClick={submitQuote} 
+                defaultValue={"Submit"}/>
             <div>
                 <input
                     type="Button"

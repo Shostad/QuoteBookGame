@@ -10,7 +10,7 @@ app.use(cors({
 
 // Example API endpoint fetching users from PostgreSQL
 app.get('/api/users', async (req, res) => {
-    console.log("running query")
+    console.log("running GetUsers")
     try {
         const result = await db.query('SELECT * FROM users ORDER BY id ASC');
         res.status(209).json(result.rows);
@@ -43,7 +43,7 @@ app.get('/api/SignIn/:userName/:password', async (req, res) => {
     try {
         const result = await db.query('SELECT id,name FROM users where name = $1 and password = $2',[userName,password]);
         res.status(209).json(result.rows);
-        console.log(result)
+        // console.log(result)
     } catch (error) {
         console.error('Database connection error:', error.stack);
         res.status(500).json({ error: 'SignIn error' });
@@ -56,7 +56,7 @@ app.get('/api/GetPeople/:userId', async (req, res) => {
     try {
         const result = await db.query('SELECT person_id,name FROM person where createdby = $1',[userId]);
         res.status(209).json(result.rows);
-        console.log(result)
+        // console.log(result)
     } catch (error) {
         console.error('Database connection error:', error.stack);
         res.status(500).json({ error: 'GetPeople error' });
@@ -69,7 +69,7 @@ app.get('/api/GetQuoteCount/:userId', async (req, res) => {
     try {
         const result = await db.query('select count(created_by) from quote where created_by = $1;',[userId]);
         res.status(209).json(result.rows);
-        console.log(result)
+        // console.log(result)
     } catch (error) {
         console.error('Database connection error:', error.stack);
         res.status(500).json({ error: 'GetQuoteCount error' });
@@ -97,7 +97,7 @@ app.post('/api/AddQuote', async (req, res) => {
         const result = await db.query(`insert into quote (text,created_by) 
             values 
             ($1, $2); `,[text,createdBy])
-        console.log(result)
+        // console.log(result)
         
         res.status(201).json({message: "Great Success"})
     }catch (err){
