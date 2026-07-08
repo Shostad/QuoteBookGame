@@ -54,7 +54,7 @@ app.get('/api/GetPeople/:userId', async (req, res) => {
     console.log("running getPeople")
     const {userId} = req.params
     try {
-        const result = await db.query('SELECT person_id,name FROM person where createdby = $1',[userId]);
+        const result = await db.query('SELECT person_id,name FROM person where created_by = $1',[userId]);
         res.status(209).json(result.rows);
         // console.log(result)
     } catch (error) {
@@ -62,6 +62,20 @@ app.get('/api/GetPeople/:userId', async (req, res) => {
         res.status(500).json({ error: 'GetPeople error' });
     }
 });
+
+app.get('/api/GetPersonCount/:userId', async (req, res) => {
+    console.log("running getPersonCount")
+    const {userId} = req.params
+    try {
+        const result = await db.query('select count(created_by) from person where created_by = $1;',[userId]);
+        res.status(209).json(result.rows);
+        // console.log(result)
+    } catch (error) {
+        console.error('Database connection error:', error.stack);
+        res.status(500).json({ error: 'GetPersonCount error' });
+    }
+});
+
 
 app.get('/api/GetQuoteCount/:userId', async (req, res) => {
     console.log("running getQuoteCount")
@@ -78,25 +92,26 @@ app.get('/api/GetQuoteCount/:userId', async (req, res) => {
 
 app.post('/api/AddPerson', async (req, res) => {
     console.log("starting AddPerson")
-    const  {name,createdBy} = req.body
+    const  {name,created_by} = req.body
     try {
-        const result = await db.query(`insert into person (name,createdby) 
+        const result = await db.query(`insert into person (name,created_by) 
             values 
-            ($1, $2); `,[name,createdBy])
+            ($1, $2); `,[name,created_by])
         
         result.status(201).json({message: "Great Success"})
     }catch (err){
-        res.status(500).json({message: "Error during AddPerson"})
+        console.error('Database connection error:', err.stack);
+        res.status(503).json({message: "Error during AddPerson"})
     }
 })
 
 app.post('/api/AddQuote', async (req, res) => {
     console.log("starting AddQuote")
-    const  {text,createdBy} = req.body
+    const  {text,created_by} = req.body
     try {
         const result = await db.query(`insert into quote (text,created_by) 
             values 
-            ($1, $2); `,[text,createdBy])
+            ($1, $2); `,[text,created_by])
         // console.log(result)
         
         res.status(201).json({message: "Great Success"})

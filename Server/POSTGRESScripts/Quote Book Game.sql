@@ -9,7 +9,7 @@ CREATE TABLE "person" (
   "person_id" int generated always as identity primary key,
   "user_id" int,
   "name" varchar,
-  "createdby" int
+  "created_by" int
 );
 
 CREATE TABLE "quote" (
@@ -61,7 +61,7 @@ ALTER TABLE "person" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") DEFER
 
 ALTER TABLE "quote" ADD FOREIGN KEY ("created_by") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "person" ADD FOREIGN KEY ("createdby") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "person" ADD FOREIGN KEY ("created_by") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;
 
 ALTER TABLE "group_line" ADD FOREIGN KEY ("person_id") REFERENCES "person" ("person_id") DEFERRABLE INITIALLY IMMEDIATE;
 

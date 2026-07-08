@@ -7,6 +7,7 @@ import './HomePage.css'
 function HomePage() {
     const navigate = useNavigate();
     const [quoteCount, setquoteCount] = useState(0)
+    const [personCount, setPersonCount] = useState(0)
     const goToSignIn = () => {
         localStorage.removeItem('userId')
         localStorage.removeItem('userName')
@@ -18,6 +19,7 @@ function HomePage() {
 
     useEffect(() => {
         fetchQuoteCount()
+        fetchPersonCount()
     },[quoteCount])
 
     const fetchQuoteCount = async () => {
@@ -27,6 +29,18 @@ function HomePage() {
             const data = await res.json()
             console.log(data[0].count)
             setquoteCount(data[0].count)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const fetchPersonCount = async () => {
+        console.log("fetching PersonCount")
+        try {
+            const res = await fetch(`http://localhost:3000/api/GetPersonCount/${localStorage.getItem('userId')}`)
+            const data = await res.json()
+            console.log(data[0].count)
+            setPersonCount(data[0].count)
         } catch (err) {
             console.error(err)
         }
@@ -46,8 +60,9 @@ function HomePage() {
                         Quote Analysis
                     </h4>
                     <p>
-                        You have {quoteCount} Quotes
+                        You have {quoteCount} Quotes from {personCount} People
                     </p>
+                    <input type="text" />
 
                 </div>
                 <div className="options-element">

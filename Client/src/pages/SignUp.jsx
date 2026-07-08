@@ -4,8 +4,8 @@ import './SignUp.css'
 
 function SignUp() {
     const navigate = useNavigate();
-    const [currentUserName,setCurrentUserName] = useState('')
-    const [currentPassword,setCurrentPassword] = useState('')
+    const [currentUserName, setCurrentUserName] = useState('')
+    const [currentPassword, setCurrentPassword] = useState('')
 
     const updateUserName = (event) => {
         setCurrentUserName(event.target.value)
@@ -19,9 +19,28 @@ function SignUp() {
         navigate('/')
     }
 
+    const addSelfToPeople = async () => {
+
+        try {
+            const res = await fetch('http://localhost:3000/api/AddQuote', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    text: currentUserName,
+                    createdBy: localStorage.getItem('userId')
+                })
+            })
+            console.log(res.status)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     const submitSignUp = async () => {
         try {
-            const res = await fetch('http://localhost:3000/api/SignUp',{
+            const res = await fetch('http://localhost:3000/api/SignUp', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,7 +51,7 @@ function SignUp() {
                 })
             })
             backToSignIn()
-        }catch (err) {
+        } catch (err) {
             console.error(err)
         }
     }
@@ -45,26 +64,26 @@ function SignUp() {
                 <div>
                     <input
                         type="text"
-                        defaultValue={'Name'} 
-                        onChange={updateUserName}/>
+                        defaultValue={'Name'}
+                        onChange={updateUserName} />
                 </div>
                 <div>
                     <input type="text"
                         name=""
                         id=""
-                        defaultValue={'Password'} 
-                        onChange={updatePassword}/>
+                        defaultValue={'Password'}
+                        onChange={updatePassword} />
                 </div>
                 <div className="flexBox">
                     <p>Submit</p>
-                    <input type="button" 
-                    onClick={submitSignUp}/>
+                    <input type="button"
+                        onClick={submitSignUp} />
                 </div>
                 <div>
-                    <input 
+                    <input
                         type="button"
-                        defaultValue={'Back to SignIn'} 
-                        onClick={backToSignIn}/>
+                        defaultValue={'Back to SignIn'}
+                        onClick={backToSignIn} />
                 </div>
             </div>
         </div>
