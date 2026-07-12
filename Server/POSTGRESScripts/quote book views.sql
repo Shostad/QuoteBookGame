@@ -131,5 +131,22 @@ create or replace function get_quotes_by_ids(input_ids int[])
 	
 select * from get_quotes_by_ids(ARRAY[1,2,3]);
 
+create or replace view total_quotes as 
+	select qh.quote_id, qh.creator_id from (quote_head qh
+	join quote_line ql on (qh.quote_id = ql.quote_id)); 
 
- 
+select * from total_quotes;
+drop view total_quotes;
+
+create or replace view stats_by_person as 
+	select p.name, temp.count 
+		from ( select ql.person_id,count(ql.person_id) as count 
+			from quote_line ql group by ql.person_id) as temp 
+			join person p on (p.person_id = temp.person_id)
+		order by temp.count desc; 
+
+select * from stats_by_person;
+drop view stats_by_person;
+
+select * from (quote_head qh
+	join quote_line ql on (qh.quote_id = ql.quote_id))
