@@ -31,10 +31,9 @@ CREATE TABLE "quote_line" (
 );
 
 CREATE TABLE "group_head" (
-  "group_id" int unique,
-  "created_by" int,
+  "group_id" int generated always as identity primary key,
+  "created_by" int
   
-  constraint group_head_pk primary key (group_id)
 );
 
 CREATE TABLE "group_line" (

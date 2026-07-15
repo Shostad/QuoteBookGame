@@ -8,6 +8,8 @@ function HomePage() {
     const navigate = useNavigate();
     const [quoteCount, setquoteCount] = useState(0)
     const [personCount, setPersonCount] = useState(0)
+    const [quotesByPerson, setQuotesByPerson] = useState([])
+
     const goToSignIn = () => {
         localStorage.removeItem('userId')
         localStorage.removeItem('userName')
@@ -20,26 +22,42 @@ function HomePage() {
     useEffect(() => {
         fetchQuoteCount()
         fetchPersonCount()
-    },[quoteCount])
+        fetchQuotesByPerson()
+    }, [quoteCount])
 
     const fetchQuoteCount = async () => {
         console.log("fetching QuoteCount")
         try {
             const res = await fetch(`http://localhost:3000/api/GetQuoteCount/${localStorage.getItem('userId')}`)
             const data = await res.json()
-            console.log(data[0].count)
+            // console.log(data[0].count)
             setquoteCount(data[0].count)
         } catch (err) {
             console.error(err)
         }
     }
 
+    const fetchQuotesByPerson = async () => {
+        console.log("fetching QuoteCount")
+        try {
+            const res = await fetch(`http://localhost:3000/api/GetQuotesByPeople/${localStorage.getItem('userId')}`)
+            const data = await res.json()
+            console.log("quotesbyperson")
+            console.log(data)
+            setQuotesByPerson(data)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+
+
     const fetchPersonCount = async () => {
         console.log("fetching PersonCount")
         try {
             const res = await fetch(`http://localhost:3000/api/GetPersonCount/${localStorage.getItem('userId')}`)
             const data = await res.json()
-            console.log(data[0].count)
+            // console.log(data[0].count)
             setPersonCount(data[0].count)
         } catch (err) {
             console.error(err)
@@ -62,7 +80,31 @@ function HomePage() {
                     <p>
                         You have {quoteCount} Quotes from {personCount} People
                     </p>
-                    <input type="text" />
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Person
+                                </th>
+                                <th>
+                                    NumQuotes
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {quotesByPerson.map((current, x) => (
+                                <tr key={x}>
+                                    <td>
+                                        {current.name}
+                                    </td>
+                                    <td>
+                                        {current.count}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    {/* <input type="text" /> */}
 
                 </div>
                 <div className="options-element">

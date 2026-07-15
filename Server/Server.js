@@ -10,7 +10,7 @@ app.use(cors({
 
 // Example API endpoint fetching users from PostgreSQL
 app.get('/api/users', async (req, res) => {
-    console.log("running GetUsers")
+    // console.log("running GetUsers")
     try {
         const result = await db.query('SELECT * FROM users ORDER BY id ASC');
         res.status(209).json(result.rows);
@@ -22,7 +22,7 @@ app.get('/api/users', async (req, res) => {
 });
 
 app.post('/api/SignUp', async (req, res) => {
-    console.log("starting Signup")
+    // console.log("starting Signup")
     const  {name,password} = req.body
     console.log(name)
     console.log(password)
@@ -38,7 +38,7 @@ app.post('/api/SignUp', async (req, res) => {
 })
 
 app.get('/api/SignIn/:userName/:password', async (req, res) => {
-    console.log("running getSignIn")
+    // console.log("running getSignIn")
     const {userName,password} = req.params
     try {
         const result = await db.query('SELECT id,name FROM users where name = $1 and password = $2',[userName,password]);
@@ -51,7 +51,7 @@ app.get('/api/SignIn/:userName/:password', async (req, res) => {
 });
 
 app.get('/api/GetPeople/:userId', async (req, res) => {
-    console.log("running getPeople")
+    // console.log("running getPeople")
     const {userId} = req.params
     try {
         const result = await db.query('SELECT person_id,name FROM person where created_by = $1',[userId]);
@@ -64,7 +64,7 @@ app.get('/api/GetPeople/:userId', async (req, res) => {
 });
 
 app.get('/api/GetPersonCount/:userId', async (req, res) => {
-    console.log("running getPersonCount")
+    // console.log("running getPersonCount")
     const {userId} = req.params
     try {
         const result = await db.query('select count(created_by) from person where created_by = $1;',[userId]);
@@ -78,10 +78,10 @@ app.get('/api/GetPersonCount/:userId', async (req, res) => {
 
 
 app.get('/api/GetQuoteCount/:userId', async (req, res) => {
-    console.log("running getQuoteCount")
+    // console.log("running getQuoteCount")
     const {userId} = req.params
     try {
-        const result = await db.query('select count(created_by) from quote where created_by = $1;',[userId]);
+        const result = await db.query('select count(creator_id) from quote_head where creator_id = $1;',[userId]);
         res.status(209).json(result.rows);
         // console.log(result)
     } catch (error) {
@@ -90,8 +90,21 @@ app.get('/api/GetQuoteCount/:userId', async (req, res) => {
     }
 });
 
+app.get('/api/GetQuotesByPeople/:userId', async (req, res) => {
+    // console.log("running getQuoteCount")
+    const {userId} = req.params
+    try {
+        const result = await db.query('select name, count from stats_by_person where created_by = $1;',[userId]);
+        res.status(209).json(result.rows);
+        console.log(result)
+    } catch (error) {
+        console.error('Database connection error:', error.stack);
+        res.status(500).json({ error: 'GetQuoteCount error' });
+    }
+});
+
 app.post('/api/AddPerson', async (req, res) => {
-    console.log("starting AddPerson")
+    // console.log("starting AddPerson")
     const  {name,created_by} = req.body
     try {
         const result = await db.query(`insert into person (name,created_by) 
@@ -106,12 +119,10 @@ app.post('/api/AddPerson', async (req, res) => {
 })
 
 app.post('/api/AddQuote', async (req, res) => {
-    console.log("starting AddQuote")
-    const  {text,created_by} = req.body
+    // console.log("starting AddQuote")
+    const  {lines,people,created_by,date} = req.body
     try {
-        const result = await db.query(`insert into quote (text,created_by) 
-            values 
-            ($1, $2); `,[text,created_by])
+        const result = await db.query(`addQuote($1, $2, $3, $4); `,[lines,people,created_by,date])
         // console.log(result)
         
         res.status(201).json({message: "Great Success"})

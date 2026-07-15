@@ -29,6 +29,11 @@ p {
     color: white;
 }
 
+tr {
+    color: white;
+    margin: 20px 0;
+}
+
 .options-layout {
     display: flex;
     flex-direction: row;
