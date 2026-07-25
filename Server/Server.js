@@ -94,7 +94,7 @@ app.get('/api/GetQuotesByPeople/:userId', async (req, res) => {
     // console.log("running getQuoteCount")
     const {userId} = req.params
     try {
-        const result = await db.query('select name, count from stats_by_person where created_by = $1;',[userId]);
+        const result = await db.query('select name, count from stats_by_person where created_by = $1 limit 15;',[userId]);
         res.status(209).json(result.rows);
         console.log(result)
     } catch (error) {
@@ -111,7 +111,7 @@ app.post('/api/AddPerson', async (req, res) => {
             values 
             ($1, $2); `,[name,created_by])
         
-        result.status(201).json({message: "Great Success"})
+        res.status(201).json({message: "Great Success"})
     }catch (err){
         console.error('Database connection error:', err.stack);
         res.status(503).json({message: "Error during AddPerson"})
@@ -122,7 +122,7 @@ app.post('/api/AddQuote', async (req, res) => {
     // console.log("starting AddQuote")
     const  {lines,people,created_by,date} = req.body
     try {
-        const result = await db.query(`addQuote($1, $2, $3, $4); `,[lines,people,created_by,date])
+        const result = await db.query(`call addQuote($1::varchar(255)[], $2::varchar(255)[], $3::int); `,[lines,people,created_by])
         // console.log(result)
         
         res.status(201).json({message: "Great Success"})
