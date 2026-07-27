@@ -22,7 +22,7 @@ app.get('/api/users', async (req, res) => {
 });
 
 app.post('/api/SignUp', async (req, res) => {
-    // console.log("starting Signup")
+    console.log("starting Signup")
     const  {name,password} = req.body
     console.log(name)
     console.log(password)
@@ -31,7 +31,7 @@ app.post('/api/SignUp', async (req, res) => {
             values 
             ($1, $2); `,[name,password])
         
-        result.status(201).json({message: "Great Success"})
+        res.status(201).json({message: "Great Success"})
     }catch (err){
         res.status(500).json({message: "Error during SignUp"})
     }
@@ -93,10 +93,11 @@ app.get('/api/GetQuoteCount/:userId', async (req, res) => {
 app.get('/api/GetQuotesByPeople/:userId', async (req, res) => {
     // console.log("running getQuoteCount")
     const {userId} = req.params
+    // console.log(userId)
     try {
-        const result = await db.query('select name, count from stats_by_person where created_by = $1 limit 15;',[userId]);
+        const result = await db.query('select name, count from stats_by_person where created_by = $1;',[userId]);
         res.status(209).json(result.rows);
-        console.log(result)
+        // console.log(result)
     } catch (error) {
         console.error('Database connection error:', error.stack);
         res.status(500).json({ error: 'GetQuoteCount error' });
@@ -122,7 +123,7 @@ app.post('/api/AddQuote', async (req, res) => {
     // console.log("starting AddQuote")
     const  {lines,people,created_by,date} = req.body
     try {
-        const result = await db.query(`call addQuote($1::varchar(255)[], $2::varchar(255)[], $3::int); `,[lines,people,created_by])
+        const result = await db.query(`call addQuote($1::varchar(255)[], $2::varchar(255)[], $3::int, $4::date); `,[lines,people,created_by,date])
         // console.log(result)
         
         res.status(201).json({message: "Great Success"})

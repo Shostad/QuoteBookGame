@@ -9,6 +9,8 @@ function AddQuote() {
     const [quoters, setQuoters] = useState([''])
     const [peopleList, setPeopleList] = useState([])
     const [quotes, setQuotes] = useState([''])
+    const [date, setDate] = useState('')
+
     const goToHomePage = () => {
         navigate("/HomePage")
     }
@@ -30,6 +32,14 @@ function AddQuote() {
         quoteCopy.splice(index, 1, event.target.value)
         setQuotes(quoteCopy)
         console.log(quotes, quoters, index)
+    }
+    
+    const updateDate = async (event, index) => {
+        console.log(typeof (event.target.value), index)
+        // let dateCopy = quotes
+        // dateCopy.splice(index, 1, event.target.value)
+        setDate(event.target.value)
+        console.log(date, index)
     }
 
     const addLine = async (event) => {
@@ -94,7 +104,7 @@ function AddQuote() {
                     lines: quotes,
                     people: quoters,
                     created_by: localStorage.getItem('userId'),
-                    date: '01/01/28'
+                    date: date
                 })
             })
             console.log(typeof (quotes))
@@ -116,6 +126,15 @@ function AddQuote() {
             <h1>
                 El AddQuote
             </h1>
+            <div>
+                <p>
+                    Quote: Author:
+                </p>
+            </div>
+            <input 
+                type="date"
+                onChange={updateDate} 
+                />
             {quotes.map((currentQuote, y) => (
                 <div>
                     <input
