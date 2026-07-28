@@ -30,7 +30,8 @@ p {
 }
 
 table {
-    margin: 0 auto
+    margin: 0 auto;
+    color: white;
 }
 
 tr {

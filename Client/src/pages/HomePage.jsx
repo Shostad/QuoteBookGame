@@ -78,7 +78,7 @@ function HomePage() {
                 <div className='options-layout'>
                     <div className="options-element">
                         <h4>
-                            Quote Analysis
+                            Quote Count By Person
                         </h4>
                         <p>
                             You have {quoteCount} Quotes from {personCount} People
@@ -118,17 +118,17 @@ function HomePage() {
                     </div>
                     <div className="options-element">
                         <h4>
-                            Add New Quote:
+                            Random Quote
                         </h4>
-                        <input
-                            type="button"
-                            onClick={goToAddQuote}
-                        />
-                    </div>
-                    <div className="options-element">
-                        <h4>
-                            Play Game
-                        </h4>
+                        <table>
+                            <th>Text</th>
+                            <th>By</th>
+                            <tr>
+                                <td>Quote1</td>
+                                <td>Author1</td>
+                            </tr>
+                        </table>
+                        <h4>On</h4>
                     </div>
                 </div>
                 <div>
