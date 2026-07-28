@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './AddQuote.css'
+import NavBar from './NavBar.jsx'
 
 
 
@@ -33,7 +34,7 @@ function AddQuote() {
         setQuotes(quoteCopy)
         console.log(quotes, quoters, index)
     }
-    
+
     const updateDate = async (event, index) => {
         console.log(typeof (event.target.value), index)
         // let dateCopy = quotes
@@ -122,57 +123,60 @@ function AddQuote() {
 
 
     return (
-        <div>
-            <h1>
-                El AddQuote
-            </h1>
+        <div className="overallPage">
+            <NavBar />
             <div>
-                <p>
-                    Quote: Author:
-                </p>
-            </div>
-            <input 
-                type="date"
-                onChange={updateDate} 
+                <h1>
+                    El AddQuote
+                </h1>
+                <div>
+                    <p>
+                        Quote: Author:
+                    </p>
+                </div>
+                <input
+                    type="date"
+                    onChange={updateDate}
                 />
-            {quotes.map((currentQuote, y) => (
+                {quotes.map((currentQuote, y) => (
+                    <div>
+                        <input
+                            type="text"
+                            key={`textinput ${y}`}
+                            defaultValue={currentQuote}
+                            onChange={() => updateQuote(event, y)}
+                        />
+                        <input
+                            list="quoterNames"
+                            id="quoterList"
+                            name="quoterList"
+                            onChange={() => updateQuoter(event, y)} />
+                        <datalist name="quoter" id="quoterNames">
+                            {peopleList.map((current, x) => (
+                                <option
+                                    value={current.name}
+                                    id={x}
+                                    key={"option" + x}
+                                ></option>
+                            ))}
+                        </datalist>
+                    </div>
+                ))}
+
                 <div>
                     <input
-                        type="text"
-                        key={`textinput ${y}`}
-                        defaultValue={currentQuote}
-                        onChange={() => updateQuote(event, y)}
-                    />
+                        type="button"
+                        defaultValue={"Add Line"}
+                        onClick={addLine} />
                     <input
-                        list="quoterNames"
-                        id="quoterList"
-                        name="quoterList"
-                        onChange={() => updateQuoter(event, y)} />
-                    <datalist name="quoter" id="quoterNames">
-                        {peopleList.map((current, x) => (
-                            <option
-                                value={current.name}
-                                id={x}
-                                key={"option" + x}
-                            ></option>
-                        ))}
-                    </datalist>
+                        type="button"
+                        onClick={submitQuote}
+                        defaultValue={"Submit"} />
+                    <input
+                        type="Button"
+                        defaultValue={"Home"}
+                        onClick={goToHomePage} />
                 </div>
-            ))}
-
-            <div>
-                <input
-                    type="button"
-                    defaultValue={"Add Line"}
-                    onClick={addLine} />
-                <input
-                    type="button"
-                    onClick={submitQuote}
-                    defaultValue={"Submit"} />
-                <input
-                    type="Button"
-                    defaultValue={"Home"}
-                    onClick={goToHomePage} />
             </div>
         </div>
 

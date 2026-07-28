@@ -51,3 +51,8 @@ tr {
     border-width: 3px;
     /* background-color: wheat; */
 }
+
+.overallPage {
+    display: flex;
+    justify-content: center;
+}

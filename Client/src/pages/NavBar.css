@@ -1,0 +1,6 @@
+.main {
+    border: 2cap;
+    border-color: wheat;
+    display: flex;
+    flex-direction: column;
+}

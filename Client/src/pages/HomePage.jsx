@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './HomePage.css'
+import NavBar from './NavBar.jsx'
 
 
 
@@ -65,74 +66,77 @@ function HomePage() {
     }
 
     return (
-        <div>
-            <h1>
-                El Homepage
-            </h1>
-            <h3>
-                Welcome back {localStorage.getItem('userName')}
-            </h3>
-            <div className='options-layout'>
-                <div className="options-element">
-                    <h4>
-                        Quote Analysis
-                    </h4>
-                    <p>
-                        You have {quoteCount} Quotes from {personCount} People
-                    </p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Rank:
-                                </th>
-                                <th>
-                                    Person:
-                                </th>
-                                <th>
-                                    NumQuotes:
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {quotesByPerson.map((current, x) => (
-                                <tr key={x}>
-                                    <td>
-                                        {x}
-                                    </td>
-                                    <td>
-                                        {current.name}
-                                    </td>
-                                    <td>
-                                        {current.count}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {/* <input type="text" /> */}
-
-                </div>
-                <div className="options-element">
-                    <h4>
-                        Add New Quote:
-                    </h4>
-                    <input
-                        type="button"
-                        onClick={goToAddQuote}
-                    />
-                </div>
-                <div className="options-element">
-                    <h4>
-                        Play Game
-                    </h4>
-                </div>
-            </div>
+        <div className="overallPage">
+            <NavBar />
             <div>
-                <input
-                    type="Button"
-                    defaultValue={"Logout"}
-                    onClick={goToSignIn} />
+                <h1>
+                    El Homepage
+                </h1>
+                <h3>
+                    Welcome back {localStorage.getItem('userName')}
+                </h3>
+                <div className='options-layout'>
+                    <div className="options-element">
+                        <h4>
+                            Quote Analysis
+                        </h4>
+                        <p>
+                            You have {quoteCount} Quotes from {personCount} People
+                        </p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Rank:
+                                    </th>
+                                    <th>
+                                        Person:
+                                    </th>
+                                    <th>
+                                        NumQuotes:
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {quotesByPerson.map((current, x) => (
+                                    <tr key={x}>
+                                        <td>
+                                            {x}
+                                        </td>
+                                        <td>
+                                            {current.name}
+                                        </td>
+                                        <td>
+                                            {current.count}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        {/* <input type="text" /> */}
+
+                    </div>
+                    <div className="options-element">
+                        <h4>
+                            Add New Quote:
+                        </h4>
+                        <input
+                            type="button"
+                            onClick={goToAddQuote}
+                        />
+                    </div>
+                    <div className="options-element">
+                        <h4>
+                            Play Game
+                        </h4>
+                    </div>
+                </div>
+                <div>
+                    <input
+                        type="Button"
+                        defaultValue={"Logout"}
+                        onClick={goToSignIn} />
+                </div>
             </div>
         </div>
 
