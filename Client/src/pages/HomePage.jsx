@@ -84,16 +84,22 @@ function HomePage() {
                         <thead>
                             <tr>
                                 <th>
-                                    Person
+                                    Rank:
                                 </th>
                                 <th>
-                                    NumQuotes
+                                    Person:
+                                </th>
+                                <th>
+                                    NumQuotes:
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             {quotesByPerson.map((current, x) => (
                                 <tr key={x}>
+                                    <td>
+                                        {x}
+                                    </td>
                                     <td>
                                         {current.name}
                                     </td>

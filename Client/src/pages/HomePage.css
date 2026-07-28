@@ -29,6 +29,10 @@ p {
     color: white;
 }
 
+table {
+    margin: 0 auto
+}
+
 tr {
     color: white;
     margin: 20px 0;
