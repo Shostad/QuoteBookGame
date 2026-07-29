@@ -1,4 +1,6 @@
 drop procedure if exists addQuote;
+drop function if exists getQuoteByID;
+drop function if exists getRandomQuote;
 drop view if exists total_quotes;
 drop view if exists stats_by_person;
 drop view if exists quotes_by_month;
@@ -16,6 +18,30 @@ BEGIN
 		line_count = line_count + 1;
 --        RAISE NOTICE 'Value: %', current_name;
     END LOOP;
+END 
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE function getQuoteByID(target_quote_id int)
+returns table(quote_agg _varchar, names_agg _varchar, quote_date date, context varchar(255))
+as $$
+BEGIN
+    return query(
+	  with aggregate_quotes as (
+         select array_agg(text) as quote_agg,array_agg(name) as names_agg ,max(quote_id) as quote_id 
+         from quote_line ql join person p on (ql.person_id = p.person_id) 
+         where ql.quote_id = target_quote_id)
+      select aggregate_quotes.quote_agg,aggregate_quotes.names_agg,qh.date as quote_date,qh.context from aggregate_quotes join quote_head qh on (qh.quote_id = aggregate_quotes.quote_id));
+END 
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE function getRandomQuote(current_user_id int)
+returns table(quote_agg _varchar, names_agg _varchar, quote_date date, context varchar(255))
+as $$
+declare 
+	temp int;
+BEGIN
+	select quote_id into temp from quote_head qh where qh.creator_id = 1 order by random() limit 1;
+    return query(select * from getQuoteByID(temp));
 END 
 $$ LANGUAGE plpgsql;
 

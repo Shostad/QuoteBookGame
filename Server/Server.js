@@ -95,7 +95,21 @@ app.get('/api/GetQuotesByPeople/:userId', async (req, res) => {
     const {userId} = req.params
     // console.log(userId)
     try {
-        const result = await db.query('select name, count from stats_by_person where created_by = $1;',[userId]);
+        const result = await db.query('select name, count from stats_by_person where created_by = $1 limit 15;',[userId]);
+        res.status(209).json(result.rows);
+        // console.log(result)
+    } catch (error) {
+        console.error('Database connection error:', error.stack);
+        res.status(500).json({ error: 'GetQuoteCount error' });
+    }
+});
+
+app.get('/api/GetRandomQuote/:userId', async (req, res) => {
+    // console.log("running getQuoteCount")
+    const {userId} = req.params
+    // console.log(userId)
+    try {
+        const result = await db.query('select * from getRandomQuote($1);',[userId]);
         res.status(209).json(result.rows);
         // console.log(result)
     } catch (error) {

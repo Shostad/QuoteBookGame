@@ -10,6 +10,7 @@ function HomePage() {
     const [quoteCount, setquoteCount] = useState(0)
     const [personCount, setPersonCount] = useState(0)
     const [quotesByPerson, setQuotesByPerson] = useState([])
+    const [currentRandomQuote, setCurrentRandomQuote] = useState('')
 
     const goToSignIn = () => {
         localStorage.removeItem('userId')
@@ -24,6 +25,7 @@ function HomePage() {
         fetchQuoteCount()
         fetchPersonCount()
         fetchQuotesByPerson()
+        fetchRandomQuote()
     }, [quoteCount])
 
     const fetchQuoteCount = async () => {
@@ -51,8 +53,6 @@ function HomePage() {
         }
     }
 
-
-
     const fetchPersonCount = async () => {
         console.log("fetching PersonCount")
         try {
@@ -60,6 +60,18 @@ function HomePage() {
             const data = await res.json()
             // console.log(data[0].count)
             setPersonCount(data[0].count)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const fetchRandomQuote = async () => {
+        console.log("fetching RandomQuote")
+        try {
+            const res = await fetch(`http://localhost:3000/api/GetRandomQuote/${localStorage.getItem('userId')}`)
+            const data = await res.json()
+            console.log(data[0])
+            setCurrentRandomQuote(data[0])
         } catch (err) {
             console.error(err)
         }
@@ -123,12 +135,15 @@ function HomePage() {
                         <table>
                             <th>Text</th>
                             <th>By</th>
-                            <tr>
-                                <td>Quote1</td>
-                                <td>Author1</td>
-                            </tr>
+                            {/* {currentRandomQuote.names_agg.map((current, x) => (
+                                <tr>
+                                    <td>{currentRandomQuote.quote_agg[x]}</td>
+                                    <td>{currentRandomQuote.names_agg[x]}</td>
+                                </tr>
+                            ))} */}
                         </table>
                         <h4>On</h4>
+                        {/* <p>{currentRandomQuote.quote_date}</p> */}
                     </div>
                 </div>
                 <div>
