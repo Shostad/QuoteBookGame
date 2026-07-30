@@ -27,6 +27,7 @@ body {
 
 p {
     color: white;
+    text-wrap: pretty;
 }
 
 table {
@@ -43,6 +44,7 @@ tr {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    flex-basis:10px;
 }
 
 .options-element {

@@ -10,7 +10,9 @@ function HomePage() {
     const [quoteCount, setquoteCount] = useState(0)
     const [personCount, setPersonCount] = useState(0)
     const [quotesByPerson, setQuotesByPerson] = useState([])
-    const [currentRandomQuote, setCurrentRandomQuote] = useState('')
+    const [currentRandomQuoteContent, setCurrentRandomQuoteContent] = useState([])
+    const [currentRandomQuotePeople, setCurrentRandomQuotePeople] = useState([])
+    const [currentRandomQuoteDate, setCurrentRandomQuoteDate] = useState('')
 
     const goToSignIn = () => {
         localStorage.removeItem('userId')
@@ -71,7 +73,9 @@ function HomePage() {
             const res = await fetch(`http://localhost:3000/api/GetRandomQuote/${localStorage.getItem('userId')}`)
             const data = await res.json()
             console.log(data[0])
-            setCurrentRandomQuote(data[0])
+            setCurrentRandomQuoteContent(data[0].quote_agg)
+            setCurrentRandomQuotePeople(data[0].names_agg)
+            setCurrentRandomQuoteDate(data[0].quote_date)
         } catch (err) {
             console.error(err)
         }
@@ -135,15 +139,15 @@ function HomePage() {
                         <table>
                             <th>Text</th>
                             <th>By</th>
-                            {/* {currentRandomQuote.names_agg.map((current, x) => (
+                            {currentRandomQuoteContent.map((current, x) => (
                                 <tr>
-                                    <td>{currentRandomQuote.quote_agg[x]}</td>
-                                    <td>{currentRandomQuote.names_agg[x]}</td>
+                                    <td>{currentRandomQuoteContent[x]}</td>
+                                    <td>{currentRandomQuotePeople[x]}</td>
                                 </tr>
-                            ))} */}
+                            ))}
                         </table>
                         <h4>On</h4>
-                        {/* <p>{currentRandomQuote.quote_date}</p> */}
+                        <p>{currentRandomQuoteDate.substring(8,10)+'/'+currentRandomQuoteDate.substring(5,7)+'/'+currentRandomQuoteDate.substring(0,4)}</p>
                     </div>
                 </div>
                 <div>
